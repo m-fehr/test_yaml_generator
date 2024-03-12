@@ -1,51 +1,56 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kästchen Auswahl</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quarto Book Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        label {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<h1>Kästchen Auswahl</h1>
+    <div class="container">
+        <h1>Quarto Book Generator</h1>
+        <form id="bookForm">
+            <div>
+                <label for="chapterSelect">Wählen Sie Ihre Kapitel aus:</label>
+                <select id="chapterSelect" multiple>
+                    <option value="chapter1">Kapitel 1</option>
+                    <option value="chapter2">Kapitel 2</option>
+                    <option value="chapter3">Kapitel 3</option>
+                    <!-- Weitere Kapiteloptionen hier einfügen -->
+                </select>
+            </div>
+            <button type="button" onclick="generateBook()">Generieren</button>
+        </form>
+        <div id="output"></div>
+    </div>
 
-<form id="checkboxForm">
-  <label for="a">A</label>
-  <input type="checkbox" id="a" name="letters" value="a"><br>
-  <label for="b">B</label>
-  <input type="checkbox" id="b" name="letters" value="b"><br>
-  <label for="c">C</label>
-  <input type="checkbox" id="c" name="letters" value="c"><br>
-  <label for="d">D</label>
-  <input type="checkbox" id="d" name="letters" value="d"><br>
-  <label for="e">E</label>
-  <input type="checkbox" id="e" name="letters" value="e"><br><br>
-  <button type="button" onclick="generateFile()">Datei generieren</button>
-</form>
-
-<script>
-function generateFile() {
-  const checkboxes = document.querySelectorAll('input[name="letters"]:checked');
-  if (checkboxes.length === 0) {
-    alert('Bitte wählen Sie mindestens ein Kästchen aus.');
-    return;
-  }
-  
-  let content = '';
-  checkboxes.forEach((checkbox) => {
-    content += checkbox.value;
-  });
-  
-  const blob = new Blob([content], { type: 'text/plain' });
-  const url = URL.createObjectURL(blob);
-  
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = 'selected_letters.txt';
-  document.body.appendChild(link);
-  
-  link.click();
-}
-</script>
-
+    <script>
+        function generateBook() {
+            var selectedChapters = [];
+            var selectElement = document.getElementById("chapterSelect");
+            for (var i = 0; i < selectElement.options.length; i++) {
+                if (selectElement.options[i].selected) {
+                    selectedChapters.push(selectElement.options[i].value);
+                }
+            }
+            var outputDiv = document.getElementById("output");
+            outputDiv.innerHTML = "Das Buch wird generiert mit folgenden Kapiteln: " + selectedChapters.join(", ");
+            // Hier kannst du die Logik einfügen, um das Quarto-Buch zu generieren und anzuzeigen
+            // Zum Beispiel: outputDiv.innerHTML = "Das Buch wurde generiert!";
+        }
+    </script>
 </body>
 </html>
